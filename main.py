@@ -22,8 +22,10 @@ async def on_ready():
     headers={'User-Agent':'Mozilla/5.0 (Linux; Android 10; LM-X525 Build/QKQ1.200531.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.87 Mobile Safari/537.36'}
     if not os.path.isfile('./msgid.txt'):
         open('msgid.txt', 'a').close()
-    with open('msgid.txt') as e:
-        msgid=int(e.read().strip())
+        msgid=None
+    else:
+        with open('msgid.txt') as e:
+            msgid=int(e.read().strip())
     channel=await client.fetch_channel(933621354173980682)
     try:
         msg=await channel.fetch_message(msgid)
