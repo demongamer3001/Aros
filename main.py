@@ -28,7 +28,6 @@ async def on_ready():
             msgid=int(e.read().strip())
     channel=await client.fetch_channel(933621354173980682)
     try:
-        if
         msg=await channel.fetch_message(msgid)
     except Exception:
         async with aiohttp.ClientSession(headers=headers) as session:
