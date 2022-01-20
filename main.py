@@ -24,7 +24,7 @@ async def on_ready():
         open('msgid.txt', 'a').close()
     with open('msgid.txt') as e:
         msgid=int(e.read().strip())
-    channel=await client.fetch_channel(927159708169674765)
+    channel=await client.fetch_channel(933621354173980682)
     try:
         msg=await channel.fetch_message(msgid)
     except discord.NotFound:
