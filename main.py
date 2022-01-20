@@ -28,8 +28,9 @@ async def on_ready():
             msgid=int(e.read().strip())
     channel=await client.fetch_channel(933621354173980682)
     try:
+        if
         msg=await channel.fetch_message(msgid)
-    except discord.NotFound:
+    except Exception:
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get('https://curseofaros.com/assets/worlds.json') as r:
                 json=await r.json()
@@ -47,7 +48,7 @@ async def on_ready():
         embed=None
         try:
             await channel.fetch_message(msg.id)
-        except discord.NotFound:
+        except Exception:
             msg=None
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get('https://curseofaros.com/assets/worlds.json') as r:
