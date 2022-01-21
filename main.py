@@ -3,7 +3,7 @@ from discord.ext import tasks
 
 client=discord.Client()
 
-@tasks.loop(minutes=1)
+@tasks.loop(seconds=20)
 async def status():
     headers={'User-Agent':'Mozilla/5.0 (Linux; Android 10; LM-X525 Build/QKQ1.200531.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.87 Mobile Safari/537.36'}
     async with aiohttp.ClientSession(headers=headers) as session:
