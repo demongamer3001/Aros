@@ -1,9 +1,9 @@
-import discord, aiohttp, os, asyncio
+import discord, aiohttp, os, asyncio, sys
 from discord.ext import tasks
 
 client=discord.Client()
 
-@tasks.loop(seconds=20)
+@tasks.loop(seconds=6)
 async def status():
     headers={'User-Agent':'Mozilla/5.0 (Linux; Android 10; LM-X525 Build/QKQ1.200531.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.87 Mobile Safari/537.36'}
     async with aiohttp.ClientSession(headers=headers) as session:
@@ -21,14 +21,23 @@ async def on_ready():
     spacesreq=None
     headers={'User-Agent':'Mozilla/5.0 (Linux; Android 10; LM-X525 Build/QKQ1.200531.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.87 Mobile Safari/537.36'}
     if not os.path.isfile('./msgid.txt'):
-        open('msgid.txt', 'a').close()
-        msgid=None
+        with open('msgid.txt', 'w') as e:
+            e.write("0")
+        msgid=0
     else:
         with open('msgid.txt') as e:
             msgid=int(e.read().strip())
-    channel=await client.fetch_channel(933621354173980682)
+    channel=client.get_channel(933621354173980682)
+    if channel is None:
+        try:
+            channel=await client.fetch_channel(933621354173980682)
+        except Exception:
+            sys.exit()
     try:
         msg=await channel.fetch_message(msgid)
+        msgid=msg.id
+        with open('msgid.txt', 'w') as e:
+            e.write(str(msgid))
     except Exception:
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get('https://curseofaros.com/assets/worlds.json') as r:
@@ -40,6 +49,7 @@ async def on_ready():
         msg=await channel.send(embed=embed)
         with open('msgid.txt', 'w+') as e:
             e.write(str(msg.id))
+            msgid=msg.id
     status.start()
     while True:
         temp_var=""
